@@ -5,6 +5,10 @@ SNAPSHOT_DIR=/snapshots
 COMPACTION_DIR=/compaction_2
 COMPACT_BIN=/home/kadena/compact
 
+R_SNAPSHOT_DIR=$LIVE_DIR/0/rocksDb/.zfs/snapshot
+S_SNAPSHOT_DIR=$LIVE_DIR/0/sqlite/.zfs/snapshot
+
+
 do_destroy() {
   local d=$1
   local r_snapshot=tank/live-rocksDb@$d
