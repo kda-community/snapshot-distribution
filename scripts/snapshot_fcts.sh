@@ -88,9 +88,12 @@ do_compaction() {
 
   # Unmount the RocksDB compacted volume
   zfs set mountpoint=none $r_compacted_vol
+  # And make it readonly 
+  zfs set mountpoint=none $r_compacted_vol
+  zfs set readonly=on $r_compacted_vol
 
   # And do another final clone for Sqlite
-  zfs clone -o mountpoint=none $s_snapshot $s_compacted_vol
+  zfs clone -o readonly=on -o mountpoint=none $s_snapshot $s_compacted_vol
 
   echo "-- Removing temporary clones"
   zfs destroy $r_clone
