@@ -53,6 +53,17 @@ rsync -vr $last_rsync_url .
 wget -r -nH --cut-dirs=3 --reject "index.html*" $last_http_url
 ```
 
+## Checksum
+
+Snapshots include a Blake2 (Kadena's Power) checksum. After download, checksums can be verified with:
+
+```
+(cd 0/rocksDb/; b2sum -c BLAKE2SUMS)
+
+(cd 0/sqlite/; b2sum -c BLAKE2SUMS)
+```
+
+
 ## Snapshots
 
 ### Full database

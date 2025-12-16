@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source checksum_fcts.sh
+
 LIVE_DIR=/live
 SNAPSHOT_DIR=/snapshots
 COMPACTION_DIR=/compaction_2
@@ -18,9 +20,9 @@ do_destroy() {
   local r_compacted_vol=tank/compacted-rocksDb-$d
   local s_compacted_vol=tank/compacted-sqlite-$d
 
-  echo "Cleaning $d"a
+  echo "Cleaning $d"
   echo "-- Destroyng clones"
-  zfs destroy $r_clone
+  zfs destroy $r_clone 
   zfs destroy $s_clone
 
   echo "-- Destroying compacted clones"
@@ -44,7 +46,7 @@ do_compaction() {
   local s_snapshot=tank/live-sqlite@$d
   local r_clone=tank/clone-rocksDb-tmp
   local s_clone=tank/clone-sqlite-tmp
-
+  
   local r_mount=$COMPACTION_DIR/src/0/rocksDb
   local s_mount=$COMPACTION_DIR/src/0/sqlite
 
@@ -57,9 +59,9 @@ do_compaction() {
   local TMP_DST_DIR=$COMPACTION_DIR/dst/_tmp
   local MAIN_LOG=$LOG_DIR/main.log
 
-  mkdir -p $SRC_DIR/0
-  mkdir -p $DST_DIR
-  mkdir -p $LOG_DIR
+  mkdir -p $SRC_DIR/0 
+  mkdir -p $DST_DIR 
+  mkdir -p $LOG_DIR 
 
   echo "Doing compaction $d"
   echo "-- Cloning and mounting snapshots for compaction"
@@ -80,17 +82,17 @@ do_compaction() {
 
   echo "-- Preparing Clones"
   mv $TMP_DST_DIR/0/rocksDb/* $DST_DIR
-
+ 
   # Copy snapshot date
   cat $SRC_DIR/0/rocksDb/snapshot_date > $DST_DIR/snapshot_date
-
+  
   # Print compaction height
   echo $COMPACT_HEIGHT > $DST_DIR/COMPACTION_HEIGHT
 
   # Clean Temporary dir
   rm -rf $TMP_DST_DIR
 
-  # Unmount the RocksDB compacted volume
+  # Unmount the RocksDB compacted volume 
   zfs set mountpoint=none $r_compacted_vol
   # And make it readonly 
   zfs set mountpoint=none $r_compacted_vol
@@ -102,11 +104,11 @@ do_compaction() {
   echo "-- Removing temporary clones"
   zfs destroy $r_clone
   zfs destroy $s_clone
-  rm -rf $SRC_DIR $DST_DIR
+  rm -rf $SRC_DIR $DST_DIR 
 }
 
 do_snapshot() {
-  local d=$1
+  local d=$1 
   local r_snapshot=tank/live-rocksDb@$d
   local s_snapshot=tank/live-sqlite@$d
   local r_clone=tank/clone-rocksDb-$d
@@ -158,13 +160,27 @@ do_mount() {
   local s_mount=$SNAPSHOT_DIR/full/$d/0/sqlite
   local r_c_mount=$SNAPSHOT_DIR/compacted/$d/0/rocksDb
   local s_c_mount=$SNAPSHOT_DIR/compacted/$d/0/sqlite
-
-  echo "Mounting Clones"
+ 
+  echo "Mounting Clones" 
   mkdir -p $SNAPSHOT_DIR/full/$d
   mkdir -p $SNAPSHOT_DIR/compacted/$d
 
-  zfs set mountpoint=$r_mount $r_clone
-  zfs set mountpoint=$s_mount $s_clone
+  zfs set mountpoint=$r_mount $r_clone 
+  zfs set mountpoint=$s_mount $s_clone 
   zfs set mountpoint=$r_c_mount $r_compacted_vol
   zfs set mountpoint=$s_c_mount $s_compacted_vol
+}
+
+
+do_checksum() {
+  local d=$1
+  local r_clone=tank/clone-rocksDb-$d
+  local s_clone=tank/clone-sqlite-$d
+  local r_compacted_vol=tank/compacted-rocksDb-$d
+  local s_compacted_vol=tank/compacted-sqlite-$d
+  echo "Checksumming"
+  do_checksum_volume $r_clone
+  do_checksum_volume $s_clone
+  do_checksum_volume $s_compacted_vol
+  do_checksum_volume $r_compacted_vol
 }
