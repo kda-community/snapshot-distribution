@@ -1,0 +1,90 @@
+databaseDirectory: /live/
+resetChainDatabases: false
+chainweb:
+  allowReadsInLocal: false 
+  rosetta: false
+  onlySyncPact: false
+  throttling:
+    local: 10000.0
+    mining: 5
+    global: 10000.0
+
+    putPeer: 21
+  serviceApi:
+    interface: '*'
+    port: 1880
+  validateHashesOnReplay: false
+  chainwebVersion: mainnet01
+  pactQueueSize: 2000
+  mining:
+    coordination:
+      enabled: false
+      updateStreamTimeout: 240
+      limit: 1200
+      updateStreamLimit: 2000
+      miners: []
+    nodeMining:
+      miner:
+        account: ''
+        predicate: keys-all
+        public-keys: []
+      enabled: false
+  minGasPrice: 1.0e-8
+  p2p:
+    peer:
+      certificateChainFile: null 
+      key: null 
+      interface: '*'
+      certificateChain: null
+      hostaddress:
+        hostname: "0.0.0.0" 
+        port: 4430 
+      keyFile: null 
+    maxPeerCount: 50
+    private: false
+    ignoreBootstrapNodes: false
+    maxSessionCount: 30
+    bootstrapReachability: 0.0
+    sessionTimeout: 240
+    peers: [] 
+
+  fullHistoricPactState: false 
+  gasLimitOfBlock: 150000
+  reorgLimit: 480
+  headerStream: false 
+  mempoolP2p:
+    enabled: true
+    configuration:
+      pollInterval: 25 
+      maxSessionCount: 30
+      sessionTimeout: 300
+  reintroTxs: true
+  cuts:
+    pruneChainDatabase: none 
+    fetchTimeout: 10000000
+    initialCutHeightLimit: none 
+logging:
+  telemetryBackend:
+    enabled: false 
+    configuration:
+      handle: stdout
+      color: auto
+      format: text
+  backend:
+    handle: stdout
+    color: auto
+    format: text
+  logger:
+    log_level: warn 
+    queue_size: 100
+    exception_wait: 1000
+    exit_timeout: 1000000
+    scope: []
+    exception_limit: 10000
+    policy: discard
+  clusterId: null
+  filter:
+    default-rate: 1
+    rules: []
+    default: debug
+

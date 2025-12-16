@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadena Snapshots download service</title>
+    <style>
+        body {
+	    max-width: 1400px;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        #content {
+            text-align: left;
+        }
+        #content * {
+            text-align: left;
+        }
+        h1 { color: #333; }
+        h2 { color: #555; margin-top: 30px; }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+	    text-wrap: nowrap;
+        }
+        table th {
+            background: #f4f4f4;
+            font-weight: bold;
+	    text-wrap: auto;
+        }
+        table tr:hover {
+            background: #f9f9f9;
+        }
+        .loading {
+            color: #666;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content" class="loading">Loading...</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+    <script>
+        // Fetch the Markdown file
+        fetch('index.md')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('File not found');
+                }
+                return response.text();
+            })
+            .then(markdown => {
+                const html = marked.parse(markdown);
+                document.getElementById('content').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('content').innerHTML = 
+                    `<p style="color: red;">Error: ${error.message}</p>
+                     <p>Make sure the file <strong>index.md</strong> exists in the same folder.</p>`;
+            });
+    </script>
+</body>
+</html>

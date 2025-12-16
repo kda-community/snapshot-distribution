@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Snapshot timer
+
+[Timer]
+OnCalendar=*-*-* 00:05:00
+Persistent=true
+UTC=true
+
+[Install]
+WantedBy=timers.target

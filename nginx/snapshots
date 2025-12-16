@@ -1,0 +1,27 @@
+server {
+	listen 443 ssl http2;
+	server_name  snapshots.balance.chainweb-community.org;
+
+	ssl_certificate /etc/letsencrypt/live/snapshots.chainweb-community.org/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/snapshots.chainweb-community.org/privkey.pem;
+
+        location / {
+		add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0";
+        	add_header Pragma "no-cache";
+        	add_header Expires 0;
+    		index index.html;
+		root /var/www/html/;
+	}
+
+
+	location /snapshots/compacted/ {
+		autoindex on; 
+		alias /snapshots/compacted/;
+		}	
+	
+	location /snapshots/full/ {
+		autoindex on; 
+		alias /snapshots/full/;
+		}	
+}
+

@@ -1,0 +1,14 @@
+[Unit]
+Description=Chainweb Node Mainnet 
+[Service]
+User=kadena
+KillMode=process
+KillSignal=SIGINT
+WorkingDirectory=/home/kadena/
+ExecStart= /home/kadena/chainweb-node --config-file=/home/kadena/config.yaml
+Restart=always
+RestartSec=5
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+

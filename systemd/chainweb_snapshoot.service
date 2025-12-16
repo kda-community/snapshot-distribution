@@ -1,0 +1,8 @@
+[Unit]
+Description=Snapshot Chainweb
+
+[Service]
+Type=oneshot
+ExecStart=-bash /usr/local/bin/do_snapshot.sh
+ExecStart=-bash /usr/local/bin/clean_snapshots.sh
+ExecStart=-python3 /usr/local/bin/build_md.py 
