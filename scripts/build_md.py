@@ -46,7 +46,7 @@ Downloading directly via HTTP is possible. But Rsync is definitvely more reliabl
 
 Examples:
 ```
-rsync -vr $last_rsync_url .
+rsync -vrt $last_rsync_url .
 ```
 
 ```
