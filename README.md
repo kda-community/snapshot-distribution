@@ -18,8 +18,13 @@ Chainweb config file
 Scripts files to be dropped in /usr/local/bin
 
 `snapshot_fcts.sh`: contains common functions
+
+`checksum_fcts.sh`: contains common checksumming functions
+
 `do_snapshot.sh`: Create a snapshot at the current data
+
 `clean_snaphots.sh`: Clean old snapshots
+
 `build_md.py`: Build the index.md
 
 #### `/systemd`
@@ -29,6 +34,7 @@ Systemd unit files
 #### `/nginx`
 
 Nginx site config file. To be dropped in /etc/nginx/sites-enabled
+
 
 #### `/html`
 
